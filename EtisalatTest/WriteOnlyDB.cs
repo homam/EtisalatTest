@@ -27,10 +27,11 @@ namespace EtisalatTest
                         if (_VisitsFilePath == null)
                         {
                             var path = Context.Server.MapPath("~/wvisits.json");
-                            using(var fs = new FileStream(path, FileMode.Create,FileAccess.ReadWrite))
-                            {
-                                fs.Close();
-                            }
+                            if(!File.Exists(path))
+                                using (var fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                                {
+                                    fs.Close();
+                                }
                             return _VisitsFilePath = Context.Server.MapPath("~/wvisits.json");
                         }
                 }
