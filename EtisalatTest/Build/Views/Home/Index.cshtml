@@ -1,0 +1,89 @@
+﻿@using EtisalatTest
+@model dynamic
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Mobitrans Etisalat IPs Test</title>
+    <style type="text/css">
+        body, input {
+            font-family: sans-serif;
+            font-size: 14pt;
+        }
+        input[type=submit] {
+            padding: 0.4em;
+            width: 200px;
+        }
+        input[type=text] {
+            padding: 0.4em;
+        }
+        form div {
+            margin: 20px 20px 40px 20px;
+        }
+        pre {
+            font-size: 10pt;
+            overflow: hidden;
+            border: solid 1px silver;
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            padding: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        var validate = function () {
+            var wifi = document.getElementById("Wifi");
+            var data = document.getElementById("Data");
+            
+            if (!wifi.checked && !data.checked) {
+                alert("Please select your connection.");
+                return false;
+            }
+            
+            var name = document.getElementById("Name");
+            if(!name.value || name.value.length == 0) {
+                alert("Please enter your name.");
+                return false;
+            }
+            
+            return true;
+        }
+    </script>
+</head>
+    <body>
+        <form action="@Url.Action("Record")" method="POST" onsubmit="return validate()">
+            <div>
+                Name: <input type="text" id="Name" name="name" value="@Model.Name"/>
+            </div>
+            <div>
+                <input name="wifiOrData" id="Wifi" type="radio" value="wifi" />
+                <label for="Wifi">I'm on Wifi</label>
+            </div>
+            <div>
+                <input name="wifiOrData" id="Data" type="radio" value="data"/>
+                <label for="Data">I'm on Etisalat Data Connection</label>
+            </div>
+            <div>
+                <input type="submit" name="submit" value="Save!" />
+            </div>
+        </form>
+        <pre>
+@DateTime.Now.ToString("yyyy-MM-ddZHH:mm:ss")
+
+@Request.UserHostAddress
+
+@foreach(var h in Utils.ToHeaders(Request.Headers))
+{
+foreach(var v in h.Values)
+{
+<strong>@h.Name:</strong> @v <br/>
+}
+}
+        </pre>
+    </body>
+</html>
